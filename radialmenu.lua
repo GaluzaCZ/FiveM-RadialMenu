@@ -35,9 +35,7 @@ Citizen.CreateThread(function()
                     PlaySoundFrontend(-1, "NAV", "HUD_AMMO_SHOP_SOUNDSET", 1)
 
                     -- Prevent menu from showing again until key is released
-                    while showMenu == true do Citizen.Wait(100) end
-                    Citizen.Wait(100)
-                    while IsControlPressed(0, keybindControl) do Citizen.Wait(100) end
+                    while showMenu == true or IsControlPressed(0, keybindControl) do Citizen.Wait(100) end
                 end
             end
         end

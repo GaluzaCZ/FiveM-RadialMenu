@@ -6,7 +6,7 @@ menuConfigs = {
             return IsPedOnFoot(player)
         end,
         data = {                                    -- Data that is passed to Javascript
-            keybind = "F6",                         -- Wheel keybind to use (case sensitive, must match entry in keybindControls table)
+            keybind = "F5",                         -- Wheel keybind to use (case sensitive, must match entry in keybindControls table)
             style = {                               -- Wheel style settings
                 sizePx = 600,                       -- Wheel size in pixels
                 slices = {                          -- Slice style settings
@@ -48,7 +48,7 @@ menuConfigs = {
             return IsPedInAnyVehicle(player, false)
         end,
         data = {                                    -- Data that is passed to Javascript
-            keybind = "F6",                         -- Wheel keybind to use (case sensitive, must match entry in keybindControls table)
+            keybind = "F5",                         -- Wheel keybind to use (case sensitive, must match entry in keybindControls table)
             style = {                               -- Wheel style settings
                 sizePx = 400,                       -- Wheel size in pixels
                 slices = {                          -- Slice style settings
@@ -71,7 +71,7 @@ menuConfigs = {
                     navAngle = 270,                 -- Oritentation of wheel
                     minRadiusPercent = 0.4,         -- Minimum radius of wheel in percentage
                     maxRadiusPercent = 0.9,         -- Maximum radius of wheel in percentage
-                    labels = {"imgsrc:engine.png", "imgsrc:key.png", "imgsrc:doors.png", "imgsrc:trunk.png", "imgsrc:hood.png"},
+                    labels = {"imgsrc:images/engine.png", "imgsrc:images/key.png", "imgsrc:images/doors.png", "imgsrc:images/trunk.png", "imgsrc:images/hood.png"},
                     commands = {"engine", "lock", "rdoors", "trunk", "hood"}
                 }
             }

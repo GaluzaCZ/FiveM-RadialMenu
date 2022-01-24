@@ -1,6 +1,6 @@
 # FiveM Radial Menu
 
-FiveM resource for a simnple radial menu to execute commands.
+FiveM resource for a simnple radial menu to execute commands and events.
 
 ## Installation
 
