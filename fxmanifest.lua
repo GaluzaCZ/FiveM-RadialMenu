@@ -3,7 +3,8 @@ game 'gta5'
 
 client_script {
     'config.lua',
-    'radialmenu.lua'
+    'radialmenu.lua',
+    'events.lua'
 }
 
 ui_page 'html/menu.html'

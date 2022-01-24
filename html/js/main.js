@@ -3,7 +3,7 @@ $(function() {
         // Initialize menu
         if (event.data.type == 'init') {
             // Set global keybind and resource name
-            menuKeybind = event.data.data.keybind;
+            menuKeybind = event.data.data.keybind || menuKeybind;
             resourceName = event.data.resourceName
 
             // Get number of wheels and create array to hold them
@@ -23,7 +23,7 @@ $(function() {
             document.getElementById("container").style.marginTop = marginTopSize+"px";
 
             // Create and initialize all wheels
-            for (var i = 0; i < numWheels; i++) {
+            for (let i = 0; i < numWheels; i++) {
                 // Create new wheelnav and add to array of wheels
                 if (i == 0) {
                     wheels[i] = new wheelnav('wheelDiv', null);
@@ -32,12 +32,13 @@ $(function() {
                     wheels[i] = new wheelnav('wheelDiv', wheels[0].raphael);
                 }
 
+                const sliceType = wheelStyle.slices.type || "DonutSlice";
                 // Get wheel data from JSON and customize wheel
                 wheelData = event.data.data.wheels[i];
                 wheels[i].navAngle = wheelData.navAngle;
                 wheels[i].clickModeRotate = false;
-                wheels[i].slicePathFunction = slicePath().DonutSlice;
-                wheels[i].slicePathCustom = slicePath().DonutSliceCustomization();
+                wheels[i].slicePathFunction = slicePath()[sliceType];
+                wheels[i].slicePathCustom = slicePath()[sliceType + "Customization"]();
                 wheels[i].slicePathCustom.minRadiusPercent = wheelData.minRadiusPercent;
                 wheels[i].slicePathCustom.maxRadiusPercent = wheelData.maxRadiusPercent;
                 wheels[i].sliceInitPathCustom = wheels[i].slicePathCustom;
@@ -54,17 +55,16 @@ $(function() {
                 wheels[i].createWheel(wheelData.labels);
 
                 // Clear selected items and add mouse functions
-                for (var j = 0; j < wheels[i].navItems.length; j++) {
+                for (let j = 0; j < wheels[i].navItems.length; j++) {
                     // Clear selected
                     wheels[i].navItems[j].selected = false;
 
                     // Add events for both navSlice and navTitle
-                    const execCmd = wheelData.commands[j]
                     wheels[i].navItems[j].navSlice.mousedown(function () {
-                        $.post('https://'+resourceName+'/sliceclicked', JSON.stringify({command: execCmd}));
+                        $.post('https://'+resourceName+'/sliceclicked', JSON.stringify({data: wheelData, wheel: j}));
                     });
                     wheels[i].navItems[j].navTitle.mousedown(function () {
-                        $.post('https://'+resourceName+'/sliceclicked', JSON.stringify({command: execCmd}));
+                        $.post('https://'+resourceName+'/sliceclicked', JSON.stringify({data: wheelData, wheel: j}));
                     });
                 }
 

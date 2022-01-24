@@ -35,7 +35,9 @@ Citizen.CreateThread(function()
                     PlaySoundFrontend(-1, "NAV", "HUD_AMMO_SHOP_SOUNDSET", 1)
 
                     -- Prevent menu from showing again until key is released
-                    while showMenu == true or IsControlPressed(0, keybindControl) do Citizen.Wait(100) end
+                    while showMenu == true do Wait(100) end
+                    Citizen.Wait(200)
+                    while IsControlPressed(0, keybindControl) do Citizen.Wait(100) end
                 end
             end
         end
@@ -60,28 +62,45 @@ end)
 
 -- Callback function for when a slice is clicked, execute command
 RegisterNUICallback('sliceclicked', function(data, cb)
-    -- Clear focus and destroy UI
-    showMenu = false
-    SetNuiFocus(false, false)
-    SendNUIMessage({
-        type = 'destroy'
-    })
+    local j = tonumber(data.wheel) + 1
+    if data.data.menu and data.data.menu[j] then
+        SetNuiFocus(false, false)
+        SendNUIMessage({
+            type = 'destroy'
+        })
+        local menuData = menuConfigs[data.data.menu[j]].data
+        menuData.keybind = nil
+        SendNUIMessage({
+            type = 'init',
+            data = menuData,
+            resourceName = GetCurrentResourceName()
+        })
+        Wait(100)
+        SetNuiFocus(true, true)
+    else
+        -- Clear focus and destroy UI
+        showMenu = false
+        SetNuiFocus(false, false)
+        SendNUIMessage({
+            type = 'destroy'
+        })
 
-    -- Play sound
-    PlaySoundFrontend(-1, "NAV", "HUD_AMMO_SHOP_SOUNDSET", 1)
+        -- Play sound
+        PlaySoundFrontend(-1, "NAV", "HUD_AMMO_SHOP_SOUNDSET", 1)
 
-    -- Run command
-    ExecuteCommand(data.command)
+        -- Run data
+        if data.data.commands and data.data.commands[j] then
+            ExecuteCommand(data.data.commands[j])
+        end
+        if data.data.events and data.data.events[j] then
+            if type(data.data.events[j]) == "table" then
+                TriggerEvent(table.unpack(data.data.events[j]))
+            elseif type(data.data.events[j]) == "string" then
+                TriggerEvent(data.data.events[j])
+            end
+        end
+    end
 
     -- Send ACK to callback function
-    cb('ok')
-end)
-
--- Callback function for testing
-RegisterNUICallback('testprint', function(data, cb)
-    -- Print message
-    TriggerEvent('chatMessage', "[test]", {255,0,0}, data.message)
-
-    -- Send ACK to callback function
-    cb('ok')
+    cb("ok")
 end)
