@@ -72,13 +72,9 @@ menuConfigs = {
 					navAngle = 270,                 -- Oritentation of wheel
 					minRadiusPercent = 0.4,         -- Minimum radius of wheel in percentage
 					maxRadiusPercent = 0.9,         -- Maximum radius of wheel in percentage
-					labels = {"imgsrc:images/engine.png", "imgsrc:images/key.png", "imgsrc:images/doors.png", "imgsrc:images/neon.png", "imgsrc:images/hood.png"},
-					events = {                      -- U can trigger events
-						"glz_veh:engine",
-						{"glz_veh:lock", 1},		-- In table can be args for event
-						nil,						-- 'nil' if u dont want trigger event
-						"glz_veh:neons"
-					},
+					labels = {"imgsrc:images/engine.png", "imgsrc:images/key.png", "imgsrc:images/doors.png", "imgsrc:images/neon.png"},
+					events = {"glz_veh:engine", nil, nil, "glz_veh:neons"},
+					commands = {nil, "carlock"},
 					menu = {nil, nil, "vehDoors"}	-- Menus can be opened too, just put name of it
 				}
 			}
